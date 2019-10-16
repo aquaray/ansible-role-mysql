@@ -20,8 +20,9 @@ Available variables are listed below, along with default values (see `defaults/m
     mysql_user_home: /root
     mysql_user_name: root
     mysql_user_password: root
+    mysql_user_use_socket: False
 
-The home directory inside which Python MySQL settings will be stored, which Ansible will use when connecting to MySQL. This should be the home directory of the user which runs this Ansible role. The `mysql_user_name` and `mysql_user_password` can be set if you are running this role under a non-root user account and want to set a non-root user.
+The home directory inside which Python MySQL settings will be stored, which Ansible will use when connecting to MySQL. This should be the home directory of the user which runs this Ansible role. The `mysql_user_name` and `mysql_user_password` can be set if you are running this role under a non-root user account and want to set a non-root user. If `mysql_user_use_socket` is set to True, it will set socket variable for client in .my.cnf.
 
     mysql_root_home: /root
     mysql_root_username: root
