@@ -127,3 +127,4 @@ mysql_replication_master: ''
 # Same keys as `mysql_users` above.
 mysql_replication_user: []
 mysql_replication_report_host: ""
+mysql_replication_user_on_all_servers: False
