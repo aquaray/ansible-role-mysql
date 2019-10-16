@@ -34,6 +34,7 @@
   register: mysql_root_hosts
   changed_when: false
   check_mode: false
+  ignore_errors: "{{ ansible_check_mode }}"
   when: mysql_install_packages | bool or mysql_root_password_update
 
 # Note: We do not use mysql_user for this operation, as it doesn't always update
@@ -48,6 +49,7 @@
   when: >
     ((mysql_install_packages | bool) or mysql_root_password_update)
     and ('5.7.' in mysql_cli_version.stdout or '8.0.' in mysql_cli_version.stdout)
+  ignore_errors: "{{ ansible_check_mode }}"
 
 # Set root password for MySQL < 5.7.x.
 - name: Update MySQL root password for localhost root account (< 5.7.x).
@@ -58,6 +60,7 @@
   when: >
     ((mysql_install_packages | bool) or mysql_root_password_update)
     and ('5.7.' not in mysql_cli_version.stdout and '8.0.' not in mysql_cli_version.stdout)
+  ignore_errors: "{{ ansible_check_mode }}"
 
 # Has to be after the root password assignment, for idempotency.
 - name: Copy .my.cnf file with root password credentials.
@@ -74,6 +77,7 @@
   register: mysql_anonymous_hosts
   changed_when: false
   check_mode: false
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Remove anonymous MySQL users.
   mysql_user:
@@ -81,6 +85,8 @@
     host: "{{ item }}"
     state: absent
   with_items: "{{ mysql_anonymous_hosts.stdout_lines|default([]) }}"
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Remove MySQL test database.
   mysql_db: "name='test' state=absent"
+  ignore_errors: "{{ ansible_check_mode }}"

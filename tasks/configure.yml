@@ -59,6 +59,7 @@
     group: "{{ mysql_log_file_group }}"
     mode: 0640
   when: mysql_slow_query_log_enabled
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Create error log file (if configured).
   command: "touch {{ mysql_log_error }}"
@@ -68,6 +69,7 @@
   when:
     - mysql_log == ""
     - mysql_log_error != ""
+  ignore_errors: "{{ ansible_check_mode }}"
   tags: ['skip_ansible_galaxy']
 
 - name: Set ownership on error log file (if configured).
